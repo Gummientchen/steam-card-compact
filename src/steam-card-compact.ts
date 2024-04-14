@@ -176,18 +176,12 @@ class SteamCardCompact extends LitElement {
       <div class="single-card-container clickable" @click=${() => this.handlePopup(entity)}>
         <div class="steam-avatar-container">
           ${this.renderUserAvatar(entity, `steam-avatar single ${this.getState(entity, 'unknown')}`)}
-          <div class="steam-level single ${entity.state}">
-            <span class="steam-level-text-container single">
-              <span class="steam-level-text single">${this.getAttr(entity, 'level', '?')}</span>
-            </span>
-            <ha-icon icon="mdi:shield"></ha-icon>
-          </div>
         </div>
         <div class="user-data-container single">
           <div class="steam-username ${entity.state}">${entity.attributes.friendly_name}</div>
           <div class="steam-last-online ${entity.state}">
             <span>
-              <ha-icon class="online-status-icon ${entity.state}" icon="mdi:cloud-${entity.state === 'online' ? 'check' : (entity.state === 'unknown' ? 'question' : 'remove')}-outline"></ha-icon>
+              <ha-icon class="online-status-icon ${entity.state}" icon="mdi:cloud-${entity.state === 'online' ? 'check' : (entity.state === 'unknown' ? 'question' : (entity.state === 'away' ? 'arrow-right' : (entity.state === 'snooze' ? 'arrow-right' : 'remove')))}-outline"></ha-icon>
             </span>
             <span class="steam-last-online-text ${entity.state}">${this.formatLastOnline(entity.attributes.last_online)}</span>
           </div>
@@ -260,7 +254,7 @@ class SteamCardCompact extends LitElement {
         z-index: 0;
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         height: 41px;
         width: auto;
         opacity: 0.5;
@@ -278,7 +272,7 @@ class SteamCardCompact extends LitElement {
       
       .steam-game-bg.single {
         height: 100%;
-        width: 130%;
+        width: 100%;
         opacity: 0.3;
         object-fit: cover;
         border-radius: var(--ha-card-border-radius);
@@ -423,6 +417,7 @@ class SteamCardCompact extends LitElement {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        line-height: 1.8rem;
       }
 
       .steam-multi {
